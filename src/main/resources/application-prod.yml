@@ -1,0 +1,16 @@
+# application-prod.yml
+spring:
+  datasource:
+    url: jdbc:h2:mem:proddb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  h2:
+    console:
+      enabled: false
+
+logging:
+  level:
+    root: error
+    org.hibernate.SQL: off
