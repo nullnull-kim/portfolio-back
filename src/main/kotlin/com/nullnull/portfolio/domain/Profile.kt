@@ -5,7 +5,7 @@ import jakarta.persistence.Column
 import jakarta.persistence.Entity
 
 @Entity
-class Introduction (
+class Profile (
     @Column(nullable = false)
     val title: String,
 
