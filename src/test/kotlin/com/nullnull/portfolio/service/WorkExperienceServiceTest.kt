@@ -1,14 +1,16 @@
 package com.nullnull.portfolio.service
 
+import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import com.nullnull.portfolio.domain.Profile
 import com.nullnull.portfolio.domain.WorkExperience
 import com.nullnull.portfolio.repository.ProfileRepository
 import com.nullnull.portfolio.repository.WorkExperienceRepository
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.context.annotation.Import
+
 import java.time.LocalDate
 
 @DataJpaTest
@@ -64,7 +66,97 @@ class WorkExperienceServiceTest @Autowired constructor(
         assertThat(found.isEnabled).isTrue()
     }
 
-    // --- 테스트용 Introduction 저장 헬퍼 ---
+    @Test
+    fun `getAllByProfile - profile과 workExperience 모두 enabled=true이면 정상 조회된다`() {
+        // given
+        val profile = saveProfile()
+
+        profile.enable()
+
+        val w1 = workExperienceRepository.save(
+            WorkExperience(
+                profile = profile,
+                companyName = "회사1",
+                title = "주니어 백엔드",
+                startDate = LocalDate.of(2020, 1, 1),
+                isCurrent = false,
+                sortOrder = 1,
+            )
+        )
+
+        val w2 = workExperienceRepository.save(
+            WorkExperience(
+                profile = profile,
+                companyName = "회사2",
+                title = "시니어 백엔드",
+                startDate = LocalDate.of(2021, 1, 1),
+                isCurrent = true,
+                sortOrder = 2,
+            )
+        )
+
+        // when
+        val result = workExperienceService.getAllByProfile(profile.id!!)
+
+        // then
+        assertThat(result).hasSize(2)
+        assertThat(result)
+            .extracting("companyName")
+            .containsExactly("회사1", "회사2")
+    }
+
+    @Test
+    fun `getAllByProfile - profile이 disabled면 예외가 발생한다`() {
+        // given
+        val profile = saveProfile()
+        profile.disable()
+        profileRepository.save(profile)
+
+        // when & then
+        assertThatThrownBy {
+            workExperienceService.getAllByProfile(profile.id!!)
+        }
+            .isInstanceOf(IllegalArgumentException::class.java)
+            .hasMessageContaining("profile is disabled")
+    }
+
+    /**
+     * profile은 enabled = true지만 WorkExperience는 enabled=false이면 조회되지 않아야 함
+     */
+    @Test
+    fun `getAllByProfile - profile은 enabled지만 workExperience가 disabled면 조회되지 않는다`() {
+        // given
+        val profile = saveProfile()
+
+        val enabled = saveWorkExperience(
+            profile = profile,
+            companyName = "활성 회사",
+            title = "백엔드",
+            start = LocalDate.of(2020, 1, 1),
+            sort = 1
+        )
+
+        val disabled = saveWorkExperience(
+            profile = profile,
+            companyName = "비활성 회사",
+            title = "백엔드",
+            start = LocalDate.of(2019, 1, 1),
+            sort = 2
+        )
+
+        disabled.disable()
+        workExperienceRepository.save(disabled)
+
+        // when
+        val result = workExperienceService.getAllByProfile(profile.id!!)
+
+        // then
+        assertThat(result).hasSize(1)
+        assertThat(result[0].companyName).isEqualTo("활성 회사")
+        assertThat(result[0].id).isEqualTo(enabled.id)
+    }
+
+    // --- 테스트용 ---
 
     private fun saveProfile(): Profile {
         val profile = Profile(
@@ -76,5 +168,33 @@ class WorkExperienceServiceTest @Autowired constructor(
             profileImageUrl = null,
         )
         return profileRepository.save(profile)
+    }
+
+    private fun saveWorkExperience(
+        profile: Profile,
+        companyName: String,
+        title: String,
+        start: LocalDate,
+        end: LocalDate? = null,
+        isCurrent: Boolean = false,
+        sort: Int? = null,
+        techStack: String? = null,
+        summary: String? = null,
+    ): WorkExperience {
+        val exp = WorkExperience(
+            profile = profile,
+            companyName = companyName,
+            companyHeadline = null,
+            title = title,
+            startDate = start,
+            endDate = end,
+            isCurrent = isCurrent,
+            location = null,
+            techStack = techStack,
+            summary = summary,
+            achievements = null,
+            sortOrder = sort,
+        )
+        return workExperienceRepository.save(exp)
     }
 }
