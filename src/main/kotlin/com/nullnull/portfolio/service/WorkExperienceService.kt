@@ -29,12 +29,20 @@ class WorkExperienceService(
         val profile = profileRepository.findById(profileId)
             .orElseThrow { IllegalArgumentException("Introduction not found: $profileId") }
 
-        return workExperienceRepository.findAllByProfile(profile)
+        if(profile.isEnabled == false) {
+            throw IllegalArgumentException("profile is disabled")
+        }
+
+        return workExperienceRepository.findAllByProfileAndIsEnabledTrue(profile)
     }
 
     fun create(profileId: Long, command: CreateWorkExperienceCommand): WorkExperience {
         val profile = profileRepository.findById(profileId)
             .orElseThrow { IllegalArgumentException("Introduction not found: $profileId") }
+
+        if(profile.isEnabled == false) {
+            throw IllegalArgumentException("profile is disabled")
+        }
 
         val entity = WorkExperience(
             profile = profile,
