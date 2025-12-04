@@ -39,5 +39,16 @@ class OtherExperienceService(
 
         return otherExperienceRepository.save(entity)
     }
+
+    fun getAllByProfile(profileId: Long): List<OtherExperience> {
+        val profile = profileRepository.findById(profileId)
+            .orElseThrow { IllegalArgumentException("Profile Not Found Id [$profileId]") }
+
+        if(profile.isEnabled == false) {
+            throw IllegalArgumentException("Profile Not Enabled")
+        }
+
+        return  otherExperienceRepository.findAllByProfileAndIsEnabledTrue(profile)
+    }
 }
 
