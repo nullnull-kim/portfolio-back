@@ -31,4 +31,16 @@ class SkillsService(
 
         return skillsRepository.save(entity)
     }
+
+    fun getAllByProfile(profileId: Long): List<Skills> {
+
+        val profile = profileRepository.findById(profileId)
+            .orElseThrow() { IllegalArgumentException("Profile not found [$profileId]") }
+
+        if (profile.isEnabled == false) {
+            throw IllegalArgumentException("Profile is disabled")
+        }
+
+        return skillsRepository.findAllByProfileAndIsEnabledTrue(profile)
+    }
 }
