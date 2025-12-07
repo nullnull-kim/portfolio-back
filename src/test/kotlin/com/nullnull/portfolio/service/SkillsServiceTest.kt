@@ -78,5 +78,53 @@ class SkillsServiceTest @Autowired constructor(
 
     }
 
+    @Test
+    fun `Profile의 isEnabled가 false이면 craete 할 수 없다`(){
 
+        // given
+        profile.disable()
+        profileRepository.save(profile)
+
+        // when & then
+        assertThatThrownBy {
+            skillsService.getAllByProfile(profile.id!!)
+        }
+            .isInstanceOf(IllegalArgumentException::class.java)
+
+        // Skills의 isEnabled가 true인 entity만 조회된다
+        profile.enable()
+        profileRepository.save(profile)
+
+        skillsService.create(profile.id!!, command1)
+        skillsService.create(profile.id!!, command2)
+
+        // create 후 비활성화
+        val entity_id = skillsService.create(profile.id!!, command0).id
+        val created = skillsRepository.findById(entity_id!!).orElseThrow()
+        created.disable()
+        skillsRepository.save(created)
+
+        // 3건을 create 수행했지만 2건만 조회된다
+        val found = skillsService.getAllByProfile(profile.id!!)
+        assertThat(found).hasSize(2)
+    }
+
+    @Test
+    fun `Skills의 isEnabled가 true인 entity만 조회된다`(){
+        // given
+        profile.enable()
+        profileRepository.save(profile)
+        skillsService.create(profile.id!!, command1)
+        skillsService.create(profile.id!!, command2)
+        val entity_id : Long = skillsService.create(profile.id!!, command0).id!!
+
+        //when
+        val created = skillsRepository.findById(entity_id!!).orElseThrow()
+        created.disable()
+        skillsRepository.save(created)
+
+        // then
+        val found = skillsService.getAllByProfile(profile.id!!)
+        assertThat(found).hasSize(2)
+    }
 }
