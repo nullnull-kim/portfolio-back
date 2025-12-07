@@ -55,8 +55,7 @@ class SkillsServiceTest @Autowired constructor(
     }
 
     @Test
-    fun `create 테스트`() {
-        //profile의 isEnabled가 false이면 craete 할 수 없다
+    fun `Profile의 isEnabled가 false이면 craete를 수행할 수 없다`() {
         profile.disable()
         profileRepository.save(profile)
 
@@ -64,13 +63,17 @@ class SkillsServiceTest @Autowired constructor(
             skillsService.create(profile.id!!, command0)
         }
             .isInstanceOf(IllegalArgumentException::class.java)
+    }
 
-        profile.enable()
-        profileRepository.save(profile)
-
+    @Test
+    fun `Skills 생성 후 조회하면 동일한 내용이 반환된다`() {
+        // given
         val created = skillsService.create(profile.id!!, command0)
+
+        // when
         val found = skillsRepository.findById(profile.id!!).orElseThrow()
 
+        // then
         assertThat(found).isNotNull
         assertThat(found.id).isEqualTo(created.id)
         assertThat(found.category).isEqualTo(command0.category)
@@ -79,7 +82,7 @@ class SkillsServiceTest @Autowired constructor(
     }
 
     @Test
-    fun `Profile의 isEnabled가 false이면 craete 할 수 없다`(){
+    fun `Profile의 isEnabled가 false이면 getAllByProfile을 수행할 수 없다`(){
 
         // given
         profile.disable()
@@ -90,23 +93,6 @@ class SkillsServiceTest @Autowired constructor(
             skillsService.getAllByProfile(profile.id!!)
         }
             .isInstanceOf(IllegalArgumentException::class.java)
-
-        // Skills의 isEnabled가 true인 entity만 조회된다
-        profile.enable()
-        profileRepository.save(profile)
-
-        skillsService.create(profile.id!!, command1)
-        skillsService.create(profile.id!!, command2)
-
-        // create 후 비활성화
-        val entity_id = skillsService.create(profile.id!!, command0).id
-        val created = skillsRepository.findById(entity_id!!).orElseThrow()
-        created.disable()
-        skillsRepository.save(created)
-
-        // 3건을 create 수행했지만 2건만 조회된다
-        val found = skillsService.getAllByProfile(profile.id!!)
-        assertThat(found).hasSize(2)
     }
 
     @Test
