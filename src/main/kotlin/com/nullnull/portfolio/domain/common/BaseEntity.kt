@@ -10,34 +10,34 @@ abstract class BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null
 
-    @Column(name = "created_at", nullable = false, updatable = false)
-    var createdAt: LocalDateTime = LocalDateTime.now()
+    @Column(name = "created", nullable = false, updatable = false)
+    var created: LocalDateTime = LocalDateTime.now()
         protected set
 
-    @Column(name = "updated_at", nullable = false)
-    var updatedAt: LocalDateTime = LocalDateTime.now()
+    @Column(name = "updated", nullable = false)
+    var updated: LocalDateTime = LocalDateTime.now()
         protected set
 
-    @Column(name = "is_enabled", nullable = false)
-    var isEnabled: Boolean = true
+    @Column(name = "enabled", nullable = false)
+    var enabled: Boolean = true
 
     @PrePersist
     protected fun onCreate(){
         val now = LocalDateTime.now()
-        createdAt = now
-        updatedAt = now
+        created = now
+        updated = now
     }
 
     @PreUpdate
     protected fun onUpdate(){
-        updatedAt = LocalDateTime.now()
+        updated = LocalDateTime.now()
     }
 
     fun disable() {
-        this.isEnabled = false
+        this.enabled = false
     }
 
     fun enable() {
-        this.isEnabled = true
+        this.enabled = true
     }
 }

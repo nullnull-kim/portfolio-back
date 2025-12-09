@@ -19,7 +19,7 @@ class SkillsService(
         val profile = profileRepository.findById(profileId)
             .orElseThrow() { IllegalArgumentException("Profile not found [$profileId]") }
 
-        if (profile.isEnabled == false) {
+        if (profile.enabled == false) {
             throw IllegalArgumentException("Profile is disabled")
         }
 
@@ -37,10 +37,10 @@ class SkillsService(
         val profile = profileRepository.findById(profileId)
             .orElseThrow() { IllegalArgumentException("Profile not found [$profileId]") }
 
-        if (profile.isEnabled == false) {
+        if (profile.enabled == false) {
             throw IllegalArgumentException("Profile is disabled")
         }
 
-        return skillsRepository.findAllByProfileAndIsEnabledTrue(profile)
+        return skillsRepository.findAllByProfileAndEnabledTrue(profile)
     }
 }

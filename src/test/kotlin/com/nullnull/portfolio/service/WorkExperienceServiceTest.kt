@@ -61,9 +61,9 @@ class WorkExperienceServiceTest @Autowired constructor(
         assertThat(found.sortOrder).isEqualTo(command.sortOrder)
 
         // BaseEntity 공통 필드도 체크
-        assertThat(found.createdAt).isNotNull()
-        assertThat(found.updatedAt).isNotNull()
-        assertThat(found.isEnabled).isTrue()
+        assertThat(found.created).isNotNull()
+        assertThat(found.updated).isNotNull()
+        assertThat(found.enabled).isTrue()
     }
 
     @Test

@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 
 interface WorkExperienceRepository : JpaRepository<WorkExperience, Long> {
-    fun findAllByProfileAndIsEnabledTrue(profile: Profile) : List<WorkExperience>
+    fun findAllByProfileAndEnabledTrue(profile: Profile) : List<WorkExperience>
 }

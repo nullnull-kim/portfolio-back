@@ -24,7 +24,7 @@ class OtherExperienceService(
         val profile = profileRepository.findById(profileId)
             .orElseThrow { IllegalArgumentException("Profile Not Found Id [$profileId]") }
 
-        if(profile.isEnabled == false) {
+        if(profile.enabled == false) {
             throw IllegalArgumentException("Profile Not Enabled")
         }
 
@@ -44,11 +44,11 @@ class OtherExperienceService(
         val profile = profileRepository.findById(profileId)
             .orElseThrow { IllegalArgumentException("Profile Not Found Id [$profileId]") }
 
-        if(profile.isEnabled == false) {
+        if(profile.enabled == false) {
             throw IllegalArgumentException("Profile Not Enabled")
         }
 
-        return  otherExperienceRepository.findAllByProfileAndIsEnabledTrue(profile)
+        return  otherExperienceRepository.findAllByProfileAndEnabledTrue(profile)
     }
 }
 
