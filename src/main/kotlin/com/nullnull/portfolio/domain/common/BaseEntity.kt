@@ -40,4 +40,8 @@ abstract class BaseEntity {
     fun enable() {
         this.enabled = true
     }
+
+    fun isEnalbe() : Boolean{
+        return enabled
+    }
 }
