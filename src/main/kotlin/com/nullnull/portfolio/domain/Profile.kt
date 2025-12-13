@@ -7,11 +7,8 @@ import java.time.LocalDate
 
 @Entity
 class Profile (
-    @Column(nullable = false)
-    val title: String,
-
-    @Column(columnDefinition = "TEXT")
-    val summary: String,
+    @Column(nullable = false, unique = true)
+    val slug: String,
 
     val name: String,
 

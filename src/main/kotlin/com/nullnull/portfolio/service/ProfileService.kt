@@ -6,9 +6,8 @@ import org.springframework.stereotype.Service
 import java.time.LocalDate
 
 data class CreateProfileCommand(
-    val title: String,
+    val slug: String,
     val name: String,
-    val summary: String,
     val contactEmail: String,
     val github: String? = null,
     val blog: String? = null,
@@ -22,9 +21,8 @@ class ProfileService(
 ){
     fun create(command: CreateProfileCommand): Profile {
         val entity = Profile(
-            title = command.title,
+            slug = "my",
             name = command.name,
-            summary = command.summary,
             contactEmail = command.contactEmail,
             github = command.github,
             blog = command.blog,
@@ -37,6 +35,17 @@ class ProfileService(
     fun getByProfileId(profileId: Long): Profile {
         val profile = profileRepository.findById(profileId)
             .orElseThrow() { IllegalArgumentException("Profile not found [$profileId]") }
+
+        if(profile.isEnalbe() == false) {
+            throw IllegalArgumentException("profile is disabled")
+        }
+
+        return profile
+    }
+
+    fun getBySlug(key: String): Profile {
+        val profile = profileRepository.findBySlug(key)
+            .orElseThrow() { IllegalArgumentException("key not found [$key]") }
 
         if(profile.isEnalbe() == false) {
             throw IllegalArgumentException("profile is disabled")
