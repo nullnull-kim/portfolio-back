@@ -4,14 +4,13 @@ import com.nullnull.portfolio.domain.Education
 import com.nullnull.portfolio.repository.EducationRepository
 import com.nullnull.portfolio.repository.ProfileRepository
 import org.springframework.stereotype.Service
-import java.time.LocalDate
 import java.time.YearMonth
 
 data class CreateEducationCommand(
     val schoolName: String,
-    val startedAt: YearMonth,
-    val endedAt: YearMonth,
-    val location: String,
+    val startedAt: String,
+    val endedAt: String,
+    val major: String,
 )
 @Service
 class EducationService(
@@ -31,9 +30,9 @@ class EducationService(
         val education = Education(
             profile = profile,
             schoolName = command.schoolName,
-            startedAt = command.startedAt,
-            endedAt = command.endedAt,
-            location = command.location,
+            started = command.startedAt,
+            ended = command.endedAt,
+            major = command.major,
         )
 
         return educationRepository.save(education)

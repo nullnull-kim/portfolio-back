@@ -13,11 +13,13 @@ class Education(
     @Column(nullable = false)
     val schoolName: String,
 
-    val startedAt: YearMonth,
+    @Column(nullable = false, length = 7)
+    val started: String,
 
-    val endedAt: YearMonth,
+    @Column(nullable = false, length = 7)
+    val ended: String,
 
-    val location: String,
+    val major: String,
 
     ) : BaseEntity() {
 }
