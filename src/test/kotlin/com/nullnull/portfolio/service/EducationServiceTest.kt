@@ -5,7 +5,6 @@ import com.nullnull.portfolio.repository.EducationRepository
 import com.nullnull.portfolio.repository.ProfileRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -32,9 +31,11 @@ class EducationServiceTest @Autowired constructor(
         profile = Profile(
             title = "김태영 백엔드 개발자",
             summary = "6년차 백엔드 개발자",
+            name = "김태영",
             contactEmail = "test@example.com",
             github = "https://github.com/nullnull-kim",
             blog = "https://nullnull-kim.github.io/",
+            birthday = LocalDate.of(1993,1,23),
             profileImageUrl = null,
         )
         profileRepository.save(profile)

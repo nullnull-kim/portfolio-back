@@ -30,10 +30,12 @@ class OtherExperienceServiceTest @Autowired constructor(
     fun setup() {
         profile = Profile(
             title = "김태영 백엔드 개발자",
-            summary = "6년차 펌뱅킹 및 핀테크 백엔드 개발자",
+            summary = "6년차 백엔드 개발자",
+            name = "김태영",
             contactEmail = "test@example.com",
-            github = null,
-            blog = null,
+            github = "https://github.com/nullnull-kim",
+            blog = "https://nullnull-kim.github.io/",
+            birthday = LocalDate.of(1993,1,23),
             profileImageUrl = null,
         )
         profileRepository.save(profile)
