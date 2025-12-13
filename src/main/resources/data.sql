@@ -1,0 +1,2 @@
+INSERT INTO profile (id, created, updated, enabled, slug, name, contact_email, github, blog, birthday, profile_image_url)
+VALUES (1, now(), now(), true, 'my', '김태영', 'nullnull.kim@gmail.com', 'https://github.com/nullnull-kim', 'https://nullnull-kim.github.io/', '1993-01-23', '');
