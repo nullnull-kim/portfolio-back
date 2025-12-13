@@ -28,8 +28,7 @@ class CertificationServiceTest @Autowired constructor(
     @BeforeAll
     fun setup() {
         profile = Profile(
-            title = "김태영 백엔드 개발자",
-            summary = "6년차 백엔드 개발자",
+            slug = "my",
             name = "김태영",
             contactEmail = "test@example.com",
             github = "https://github.com/nullnull-kim",

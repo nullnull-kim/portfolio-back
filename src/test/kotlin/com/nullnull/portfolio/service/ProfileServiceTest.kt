@@ -26,8 +26,7 @@ class ProfileServiceTest @Autowired constructor(
     @BeforeAll
     fun setup() {
         profile = Profile(
-            title = "김태영 백엔드 개발자",
-            summary = "6년차 백엔드 개발자",
+            slug = "my",
             name = "김태영",
             contactEmail = "test@example.com",
             github = "https://github.com/nullnull-kim",
@@ -37,8 +36,7 @@ class ProfileServiceTest @Autowired constructor(
         )
 
         command0 = CreateProfileCommand(
-            title = "김태영 백엔드 개발자",
-            summary = "6년차 백엔드 개발자",
+            slug = "my",
             name = "김태영",
             contactEmail = "test@example.com",
             github = "https://github.com/nullnull-kim",
@@ -59,12 +57,10 @@ class ProfileServiceTest @Autowired constructor(
 
         // then
         assertThat(found).isNotNull
-        assertThat(found.title).isEqualTo(created.title)
         assertThat(found.name).isEqualTo(created.name)
         assertThat(found.contactEmail).isEqualTo(created.contactEmail)
         assertThat(found.birthday).isEqualTo(created.birthday)
         assertThat(found.profileImageUrl).isEqualTo(created.profileImageUrl)
-        assertThat(found.summary).isEqualTo(created.summary)
     }
 
 
@@ -85,6 +81,7 @@ class ProfileServiceTest @Autowired constructor(
     @Test
     fun `getByProfileId는 profile을 반환한다`() {
         // given
+        profile.enable()
         val created = profileRepository.save(profile)
 
         // when
@@ -92,12 +89,31 @@ class ProfileServiceTest @Autowired constructor(
 
         // then
         assertThat(found).isNotNull
-        assertThat(found.title).isEqualTo(created.title)
+        assertThat(found.slug).isEqualTo(created.slug)
         assertThat(found.name).isEqualTo(created.name)
         assertThat(found.contactEmail).isEqualTo(created.contactEmail)
         assertThat(found.birthday).isEqualTo(created.birthday)
         assertThat(found.profileImageUrl).isEqualTo(created.profileImageUrl)
-        assertThat(found.summary).isEqualTo(created.summary)
+        assertThat(found.slug).isEqualTo(created.slug)
+
+    }
+
+    @Test
+    fun `getBySlug는 profile을 반환한다`() {
+        // given
+        val created = profileRepository.save(profile)
+
+        // when
+        val found = profileService.getBySlug(created.slug!!)
+
+        // then
+        assertThat(found).isNotNull
+        assertThat(found.slug).isEqualTo(created.slug)
+        assertThat(found.name).isEqualTo(created.name)
+        assertThat(found.contactEmail).isEqualTo(created.contactEmail)
+        assertThat(found.birthday).isEqualTo(created.birthday)
+        assertThat(found.profileImageUrl).isEqualTo(created.profileImageUrl)
+        assertThat(found.slug).isEqualTo(created.slug)
 
     }
 }
