@@ -14,14 +14,12 @@ import org.springframework.context.annotation.Import
 import java.time.LocalDate
 import java.time.YearMonth
 
-@DataJpaTest
 @Import(EducationService::class)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class EducationServiceTest @Autowired constructor(
     private val profileRepository: ProfileRepository,
     private val educationRepository: EducationRepository,
     private val educationService: EducationService
-) {
+): IntegrationTestSupport(){
     private lateinit var profile: Profile
     private lateinit var command0: CreateEducationCommand
     private lateinit var command1: CreateEducationCommand
@@ -29,7 +27,7 @@ class EducationServiceTest @Autowired constructor(
     @BeforeAll
     fun setup(){
         profile = Profile(
-            slug = "my",
+            slug = "test",
             name = "김태영",
             contactEmail = "test@example.com",
             github = "https://github.com/nullnull-kim",
@@ -41,16 +39,16 @@ class EducationServiceTest @Autowired constructor(
 
         command0 = CreateEducationCommand(
             schoolName = "선문대학교",
-            startedAt = YearMonth.of(2011, 3),
-            endedAt = YearMonth.of(2018, 8),
-            location = "충남"
+            startedAt = YearMonth.of(2011, 3).toString(),
+            endedAt = YearMonth.of(2018, 8).toString(),
+            major = "컴퓨터공학"
         )
 
         command1 = CreateEducationCommand(
             schoolName = "인천고등학교",
-            startedAt = YearMonth.of(2008, 2),
-            endedAt = YearMonth.of(2011, 2),
-            location = "인천"
+            startedAt = YearMonth.of(2008, 2).toString(),
+            endedAt = YearMonth.of(2011, 2).toString(),
+            major = "인문계"
         )
     }
 
@@ -79,15 +77,14 @@ class EducationServiceTest @Autowired constructor(
         assertThat(found).isNotNull
         assertThat(found.id).isEqualTo(created.id)
         assertThat(found.schoolName).isEqualTo(command0.schoolName)
-        assertThat(found.startedAt).isEqualTo(command0.startedAt)
-        assertThat(found.endedAt).isEqualTo(command0.endedAt)
-        assertThat(found.location).isEqualTo(command0.location)
+        assertThat(found.started).isEqualTo(command0.startedAt)
+        assertThat(found.ended).isEqualTo(command0.endedAt)
+        assertThat(found.major).isEqualTo(command0.major)
 
     }
 
     @Test
     fun `Profile의 enabled가 false이면 getAllByProfile을 수행할 수 없다`(){
-
         // given
         profile.disable()
         profileRepository.save(profile)

@@ -12,14 +12,12 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.context.annotation.Import
 import java.time.LocalDate
 
-@DataJpaTest
 @Import(OtherExperienceService::class)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class OtherExperienceServiceTest @Autowired constructor(
     private val otherExperienceService: OtherExperienceService,
     private val otherExperienceRepository: OtherExperienceRepository,
     private val profileRepository: ProfileRepository,
-){
+): IntegrationTestSupport(){
 
     private lateinit var profile: Profile
     private lateinit var command0: CreateOtherExperienceCommand

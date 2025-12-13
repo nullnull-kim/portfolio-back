@@ -13,13 +13,12 @@ import org.springframework.context.annotation.Import
 
 import java.time.LocalDate
 
-@DataJpaTest
 @Import(WorkExperienceService::class)
 class WorkExperienceServiceTest @Autowired constructor(
     private val workExperienceService: WorkExperienceService,
     private val workExperienceRepository: WorkExperienceRepository,
     private val profileRepository: ProfileRepository,
-    ) {
+    ): IntegrationTestSupport() {
 
     @Test
     fun `profileId로 WorkExperience를 생성하면 DB에 저장되고 필드가 정상 매핑된다`() {

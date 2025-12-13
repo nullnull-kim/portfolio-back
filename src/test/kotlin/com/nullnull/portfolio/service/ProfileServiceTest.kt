@@ -12,13 +12,11 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.context.annotation.Import
 import java.time.LocalDate
 
-@DataJpaTest
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Import(ProfileService::class)
 class ProfileServiceTest @Autowired constructor(
     val profileService: ProfileService,
     val profileRepository: ProfileRepository
-) {
+): IntegrationTestSupport(){
 
     lateinit var profile: Profile
     lateinit var command0: CreateProfileCommand

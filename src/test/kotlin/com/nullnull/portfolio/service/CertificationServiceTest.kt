@@ -13,14 +13,13 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.context.annotation.Import
 import java.time.LocalDate
 
-@DataJpaTest
+
 @Import(CertificationService::class)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CertificationServiceTest @Autowired constructor(
     private val profileRepository: ProfileRepository,
     private val certificationService: CertificationService,
     private val certificationRepository: CertificationRepository
-) {
+): IntegrationTestSupport() {
     private lateinit var profile: Profile
     private lateinit var command0: CreateCertificationCommand
     private lateinit var command1: CreateCertificationCommand
