@@ -74,7 +74,7 @@ class SkillsServiceTest @Autowired constructor(
         val created = skillsService.create(profile.id!!, command0)
 
         // when
-        val found = skillsRepository.findById(profile.id!!).orElseThrow()
+        val found = skillsRepository.findById(created.id!!).orElseThrow()
 
         // then
         assertThat(found).isNotNull
