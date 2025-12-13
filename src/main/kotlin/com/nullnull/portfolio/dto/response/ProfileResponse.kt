@@ -5,6 +5,7 @@ import java.time.LocalDate
 
 data class ProfileResponse(
     val id: Long,
+    val slug: String,
     val name: String,
     val contactEmail: String,
     val github: String? = null,
@@ -15,6 +16,7 @@ data class ProfileResponse(
     companion object{
         fun from(profile: Profile): ProfileResponse = ProfileResponse(
             id = profile.id!!,
+            slug = profile.slug,
             name = profile.name,
             contactEmail = profile.contactEmail,
             github = profile.github,
