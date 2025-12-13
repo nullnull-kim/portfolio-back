@@ -1,14 +1,18 @@
-# application.yml (??)
+# application.yml
 spring:
   profiles:
-    active: dev    # ??? dev
-  # ?? JPA ?? ?
+    active: dev #기본 설정을 DEV로
+  # JPA 설정
   jpa:
+    defer-datasource-initialization: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create  # 개발 환경에서 스키마 자동 반영
     properties:
       hibernate:
-        format_sql: true
+        format_sql: true  # SQL 포맷 보기 좋게 출력
+  sql:
+    init:
+      mode: always
 
 server:
   port: 8080
