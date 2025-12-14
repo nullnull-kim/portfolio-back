@@ -4,5 +4,5 @@ VALUES (now(), now(), true, 'my', '김태영', 'nullnull.kim@gmail.com', 'https:
 INSERT INTO education (created, updated, enabled, profile_id, school_name, started, ended, major )
 VALUES (now(), now(), true, 1, '선문대학교', '2011-03', '2018-08', '컴퓨터공학');
 INSERT INTO education (created, updated, enabled, profile_id, school_name, started, ended, major )
-VALUES (now(), now(), true, 1, '인천고등학교', '2011-03', '2018-08', '인문계');
+VALUES (now(), now(), true, 1, '인천고등학교', '2008-02', '2011-02', '인문계');
 
