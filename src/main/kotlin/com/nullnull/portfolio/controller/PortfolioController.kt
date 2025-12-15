@@ -1,7 +1,9 @@
 package com.nullnull.portfolio.controller
 
+import com.nullnull.portfolio.domain.Certification
 import com.nullnull.portfolio.domain.Education
 import com.nullnull.portfolio.dto.mapper.toResponse
+import com.nullnull.portfolio.dto.response.CertificationResponse
 import com.nullnull.portfolio.dto.response.EducationResponse
 import com.nullnull.portfolio.service.*
 import org.springframework.http.ResponseEntity
@@ -22,5 +24,10 @@ class PortfolioController(
     @GetMapping("/{profileId}/educations")
     fun getEducations(@PathVariable profileId: Long) : List<EducationResponse> =
         educationService.getAllByProfile(profileId)
+            .map { it -> it.toResponse() }
+
+    @GetMapping("/{profileId}/certifications")
+    fun getCertifications(@PathVariable profileId: Long) : List<CertificationResponse> =
+        certificationService.getAllByProfile(profileId)
             .map { it -> it.toResponse() }
 }
