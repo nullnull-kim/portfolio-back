@@ -1,6 +1,7 @@
 package com.nullnull.portfolio.controller
 
 import com.nullnull.portfolio.controller.common.CommonControllerTest
+import com.nullnull.portfolio.domain.Certification
 import com.nullnull.portfolio.domain.Education
 import com.nullnull.portfolio.domain.Profile
 import org.junit.jupiter.api.Test
@@ -47,8 +48,6 @@ class PortfolioControllerTest: CommonControllerTest() {
         ).apply { enable() }
     }
 
-
-
     @Test
     fun `profileId로 조회하면 educations가 출력된다`(){
         // given
@@ -86,6 +85,42 @@ class PortfolioControllerTest: CommonControllerTest() {
             jsonPath("$[1].started") { value("2008-02") }
             jsonPath("$[1].ended") { value("2011-02") }
             jsonPath("$[1].major") { value("인문계") }
+        }
+    }
+
+    @Test
+    fun `profileId로 조회하면 certifications가 출력된다`(){
+        // given
+        val cer1 = Certification(
+            profile = profile,
+            name = "SQLD",
+            issuedBy = "한국데이터베이스진흥센터",
+            issuedAt = LocalDate.of(2024, 6,21),
+        )
+        val cer2 = Certification(
+            profile = profile,
+            name = "정보처리기사",
+            issuedBy = "한국산업인력공단",
+            issuedAt = LocalDate.of(2018, 8,17),
+        )
+        given(certificationService.getAllByProfile(profileId)).willReturn(listOf(cer1, cer2))
+
+        // when & then
+        mockMvc.get("/portfolio/{profileId}/certifications", profileId) {
+            accept = MediaType.APPLICATION_JSON
+        }.andExpect {
+            status { isOk() }
+            content { contentTypeCompatibleWith(MediaType.APPLICATION_JSON) }
+
+            jsonPath("$.length()") {value(2)}
+
+            jsonPath("$[0].name") { value("SQLD") }
+            jsonPath("$[0].issuedBy") { value("한국데이터베이스진흥센터")}
+            jsonPath("$[0].issuedAt") { value("2024-06-21")}
+
+            jsonPath("$[1].name") { value("정보처리기사") }
+            jsonPath("$[1].issuedBy") { value("한국산업인력공단")}
+            jsonPath("$[1].issuedAt") { value("2018-08-17")}
         }
     }
 }
