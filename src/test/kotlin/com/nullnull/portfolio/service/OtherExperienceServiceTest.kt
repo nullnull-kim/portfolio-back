@@ -6,9 +6,7 @@ import com.nullnull.portfolio.repository.OtherExperienceRepository
 import com.nullnull.portfolio.repository.ProfileRepository
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.context.annotation.Import
 import java.time.LocalDate
 
@@ -74,8 +72,8 @@ class OtherExperienceServiceTest @Autowired constructor(
 
         assertThat(found.title).isEqualTo(command0.title)
         assertThat(found.description).isEqualTo(command0.description)
-        assertThat(found.startedAt).isEqualTo(command0.startedAt)
-        assertThat(found.endedAt).isEqualTo(command0.endedAt)
+        assertThat(found.started).isEqualTo(command0.startedAt)
+        assertThat(found.ended).isEqualTo(command0.endedAt)
         assertThat(found.role).isEqualTo(command0.role)
     }
 

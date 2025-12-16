@@ -3,7 +3,6 @@ package com.nullnull.portfolio.domain
 import com.nullnull.portfolio.domain.common.BaseEntity
 import jakarta.persistence.*
 import java.time.LocalDate
-import java.time.LocalDateTime
 
 @Entity
 class OtherExperience(
@@ -16,9 +15,9 @@ class OtherExperience(
 
     val role: String ? = null,
 
-    val startedAt: LocalDate,
+    val started: LocalDate,
 
-    val endedAt: LocalDate ? = null,
+    val ended: LocalDate ? = null,
 
     @Column(columnDefinition = "TEXT")
     val description: String ? = null,
