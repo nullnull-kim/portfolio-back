@@ -4,6 +4,7 @@ import com.nullnull.portfolio.controller.common.CommonControllerTest
 import com.nullnull.portfolio.domain.Certification
 import com.nullnull.portfolio.domain.Education
 import com.nullnull.portfolio.domain.Profile
+import com.nullnull.portfolio.domain.Skill
 import org.junit.jupiter.api.Test
 import org.mockito.BDDMockito.given
 import org.springframework.beans.factory.annotation.Autowired
@@ -29,7 +30,7 @@ class PortfolioControllerTest: CommonControllerTest() {
     @MockBean private lateinit var educationService: EducationService
     @MockBean private lateinit var certificationService: CertificationService
     @MockBean private lateinit var otherExperienceService: OtherExperienceService
-    @MockBean private lateinit var skillsService: SkillsService
+    @MockBean private lateinit var skillService: SkillsService
     @MockBean private lateinit var workExperienceService: WorkExperienceService
 
     private lateinit var profile: Profile
@@ -121,6 +122,40 @@ class PortfolioControllerTest: CommonControllerTest() {
             jsonPath("$[1].name") { value("정보처리기사") }
             jsonPath("$[1].issuedBy") { value("한국산업인력공단")}
             jsonPath("$[1].issuedAt") { value("2018-08-17")}
+        }
+    }
+
+    @Test
+    fun `profileId로 조회하면 skillResopnse가 출력된다`() {
+        // given
+        val skill1 = Skill(
+            profile = profile,
+            category = "Backend",
+            items = "Java/SpringBoot, Kotlin/SpringBoot, Proframe/C",
+        )
+
+        val skill2 = Skill(
+            profile = profile,
+            category = "Frontend",
+            items = "JSP, HTML/CSS, Bootstrap, Vue3"
+        )
+        given(skillService.getAllByProfile(profileId)).willReturn(listOf(skill1, skill2))
+
+        // when & then
+        mockMvc.get("/portfolio/{profileId}/skills", profileId) {
+            accept = MediaType.APPLICATION_JSON
+        }.andExpect {
+            status { isOk() }
+            content { contentTypeCompatibleWith(MediaType.APPLICATION_JSON) }
+
+            jsonPath("$.length()") { value(2)}
+
+            jsonPath("$[0].category") { value("Backend") }
+            jsonPath("$[0].items") { value("Java/SpringBoot, Kotlin/SpringBoot, Proframe/C")}
+
+            jsonPath("$[1].category") {value("Frontend")}
+            jsonPath("$[1].items") { value("JSP, HTML/CSS, Bootstrap, Vue3")}
+
         }
     }
 }
