@@ -3,27 +3,25 @@ package com.nullnull.portfolio.service
 import org.assertj.core.api.Assertions.*
 import com.nullnull.portfolio.domain.Profile
 import com.nullnull.portfolio.repository.ProfileRepository
-import com.nullnull.portfolio.repository.SkillsRepository
+import com.nullnull.portfolio.repository.SkillRepository
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.context.annotation.Import
 import java.time.LocalDate
 
 @Import(SkillsService::class)
-class SkillsServiceTest @Autowired constructor(
+class SkillServiceTest @Autowired constructor(
     private val skillsService: SkillsService,
-    private val skillsRepository: SkillsRepository,
+    private val skillRepository: SkillRepository,
     private val profileRepository: ProfileRepository
 ): IntegrationTestSupport() {
 
     private lateinit var profile: Profile
-    private lateinit var command0: SkillsCommand
-    private lateinit var command1: SkillsCommand
-    private lateinit var command2: SkillsCommand
+    private lateinit var command0: SkillCommand
+    private lateinit var command1: SkillCommand
+    private lateinit var command2: SkillCommand
 
     @BeforeAll
     fun setup() {
@@ -38,17 +36,17 @@ class SkillsServiceTest @Autowired constructor(
         )
         profileRepository.save(profile)
 
-        command0 = SkillsCommand(
+        command0 = SkillCommand(
             category = "Backend",
             items = "Java/SpringBoot, Kotlin/SpringBoot, Proframe/C",
         )
 
-        command1 = SkillsCommand(
+        command1 = SkillCommand(
             category = "Frontend",
             items = "JSP, HTML/CSS, Bootstrap, Vue3"
         )
 
-        command2 = SkillsCommand(
+        command2 = SkillCommand(
             category = "DB",
             items = "Oracle, MySQL"
         )
@@ -71,7 +69,7 @@ class SkillsServiceTest @Autowired constructor(
         val created = skillsService.create(profile.id!!, command0)
 
         // when
-        val found = skillsRepository.findById(created.id!!).orElseThrow()
+        val found = skillRepository.findById(created.id!!).orElseThrow()
 
         // then
         assertThat(found).isNotNull
@@ -105,9 +103,9 @@ class SkillsServiceTest @Autowired constructor(
         val entity_id : Long = skillsService.create(profile.id!!, command0).id!!
 
         //when
-        val created = skillsRepository.findById(entity_id!!).orElseThrow()
+        val created = skillRepository.findById(entity_id!!).orElseThrow()
         created.disable()
-        skillsRepository.save(created)
+        skillRepository.save(created)
 
         // then
         val found = skillsService.getAllByProfile(profile.id!!)

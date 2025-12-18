@@ -4,7 +4,7 @@ import com.nullnull.portfolio.domain.common.BaseEntity
 import jakarta.persistence.*
 
 @Entity
-class Skills (
+class Skill (
     @ManyToOne(fetch= FetchType.LAZY)
     @JoinColumn(name = "profile_id", nullable = false)
     val profile: Profile,
