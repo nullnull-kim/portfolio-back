@@ -15,9 +15,9 @@ class OtherExperience(
 
     val role: String ? = null,
 
-    val started: LocalDate,
+    val startDate: LocalDate,
 
-    val ended: LocalDate ? = null,
+    val endDate: LocalDate ? = null,
 
     @Column(columnDefinition = "TEXT")
     val description: String ? = null,

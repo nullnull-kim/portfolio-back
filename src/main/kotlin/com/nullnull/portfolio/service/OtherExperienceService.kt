@@ -32,8 +32,8 @@ class OtherExperienceService(
             profile = profile,
             title = command.title,
             role = command.role,
-            started = command.startedAt,
-            ended = command.endedAt,
+            startDate = command.startedAt,
+            endDate = command.endedAt,
             description = command.description,
         )
 

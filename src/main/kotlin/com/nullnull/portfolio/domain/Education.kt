@@ -2,7 +2,6 @@ package com.nullnull.portfolio.domain
 
 import com.nullnull.portfolio.domain.common.BaseEntity
 import jakarta.persistence.*
-import java.time.YearMonth
 
 @Entity
 class Education(
@@ -14,10 +13,10 @@ class Education(
     val schoolName: String,
 
     @Column(nullable = false, length = 7)
-    val started: String,
+    val startDate: String,
 
     @Column(nullable = false, length = 7)
-    val ended: String,
+    val endDate: String,
 
     val major: String,
 

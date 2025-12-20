@@ -55,15 +55,15 @@ class PortfolioControllerTest: CommonControllerTest() {
         val edu1 = Education(
             profile = profile,
             schoolName = "선문대학교",
-            started = "2011-03",
-            ended = "2018-08",
+            startDate = "2011-03",
+            endDate = "2018-08",
             major = "컴퓨터공학"
         )
         val edu2 = Education(
             profile = profile,
             schoolName = "인천고등학교",
-            started = "2008-02",
-            ended = "2011-02",
+            startDate = "2008-02",
+            endDate = "2011-02",
             major = "인문계"
         )
         given(educationService.getAllByProfile(profileId)).willReturn(listOf(edu1, edu2))
@@ -96,13 +96,13 @@ class PortfolioControllerTest: CommonControllerTest() {
             profile = profile,
             name = "SQLD",
             issuedBy = "한국데이터베이스진흥센터",
-            issuedAt = LocalDate.of(2024, 6,21),
+            issuedDate = LocalDate.of(2024, 6,21),
         )
         val cer2 = Certification(
             profile = profile,
             name = "정보처리기사",
             issuedBy = "한국산업인력공단",
-            issuedAt = LocalDate.of(2018, 8,17),
+            issuedDate = LocalDate.of(2018, 8,17),
         )
         given(certificationService.getAllByProfile(profileId)).willReturn(listOf(cer1, cer2))
 

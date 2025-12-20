@@ -1,7 +1,6 @@
 package com.nullnull.portfolio.service
 
 import com.nullnull.portfolio.domain.Certification
-import com.nullnull.portfolio.domain.Profile
 import com.nullnull.portfolio.repository.CertificationRepository
 import com.nullnull.portfolio.repository.ProfileRepository
 import org.springframework.stereotype.Service
@@ -32,7 +31,7 @@ class CertificationService(
             profile = profile,
             name = createCommand.name,
             issuedBy = createCommand.issuedBy,
-            issuedAt = createCommand.issuedAt,
+            issuedDate = createCommand.issuedAt,
         )
 
         return certificationRepository.save(certification)

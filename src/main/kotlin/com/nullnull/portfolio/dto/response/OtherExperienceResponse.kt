@@ -6,8 +6,8 @@ import java.time.LocalDate
 data class OtherExperienceResponse (
     val title: String,
     val role: String ? = null,
-    val startedAt: LocalDate,
-    val endedAt: LocalDate? = null,
+    val startDate: LocalDate,
+    val endDate: LocalDate? = null,
     val description: String ? = null,
 ) {
     companion object {
@@ -15,8 +15,8 @@ data class OtherExperienceResponse (
             OtherExperienceResponse(
                 title = otherExperience.title,
                 role = otherExperience.role,
-                startedAt = otherExperience.started,
-                endedAt = otherExperience.ended,
+                startDate = otherExperience.startDate,
+                endDate = otherExperience.endDate,
                 description = otherExperience.description
             )
     }

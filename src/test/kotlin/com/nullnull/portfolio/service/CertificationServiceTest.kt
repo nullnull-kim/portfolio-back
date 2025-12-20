@@ -7,9 +7,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.TestInstance
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.context.annotation.Import
 import java.time.LocalDate
 
@@ -76,7 +74,7 @@ class CertificationServiceTest @Autowired constructor(
         assertThat(found.id).isEqualTo(created.id)
         assertThat(found.name).isEqualTo(command0.name)
         assertThat(found.issuedBy).isEqualTo(command0.issuedBy)
-        assertThat(found.issuedAt).isEqualTo(command0.issuedAt)
+        assertThat(found.issuedDate).isEqualTo(command0.issuedAt)
 
     }
 

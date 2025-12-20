@@ -4,7 +4,6 @@ import com.nullnull.portfolio.domain.Education
 import com.nullnull.portfolio.repository.EducationRepository
 import com.nullnull.portfolio.repository.ProfileRepository
 import org.springframework.stereotype.Service
-import java.time.YearMonth
 
 data class CreateEducationCommand(
     val schoolName: String,
@@ -30,8 +29,8 @@ class EducationService(
         val education = Education(
             profile = profile,
             schoolName = command.schoolName,
-            started = command.startedAt,
-            ended = command.endedAt,
+            startDate = command.startedAt,
+            endDate = command.endedAt,
             major = command.major,
         )
 

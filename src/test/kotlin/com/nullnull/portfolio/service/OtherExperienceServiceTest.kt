@@ -72,8 +72,8 @@ class OtherExperienceServiceTest @Autowired constructor(
 
         assertThat(found.title).isEqualTo(command0.title)
         assertThat(found.description).isEqualTo(command0.description)
-        assertThat(found.started).isEqualTo(command0.startedAt)
-        assertThat(found.ended).isEqualTo(command0.endedAt)
+        assertThat(found.startDate).isEqualTo(command0.startedAt)
+        assertThat(found.endDate).isEqualTo(command0.endedAt)
         assertThat(found.role).isEqualTo(command0.role)
     }
 

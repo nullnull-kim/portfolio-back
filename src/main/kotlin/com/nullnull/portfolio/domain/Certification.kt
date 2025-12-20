@@ -15,7 +15,7 @@ class Certification (
 
     val issuedBy: String,
 
-    val issuedAt: LocalDate,
+    val issuedDate: LocalDate,
 
     ) : BaseEntity(){
 }
